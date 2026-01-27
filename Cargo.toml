@@ -1,0 +1,14 @@
+[package]
+name = "classified"
+version = "0.1.0"
+edition = "2024"
+
+license = "MIT OR Apache-2.0"
+description = "High-assurance Operations for Number-theoretic Extension Sets and Theorems (Galois Fields)."
+
+authors = ["James Hunt <jameshuntdevelopment@gmail.com>"]
+repository = "https://github.com/jameshuntt/classified"
+keywords = ["cryptography", "security", "zeroize", "nist", "hardened"]
+categories = ["cryptography", "memory-management", "no-std"]
+
+[dependencies]
