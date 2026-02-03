@@ -11,3 +11,19 @@
 //! * **Isolation:** Opaque type wrappers to prevent accidental logging or exposure.
 //! * **Resistance:** Constant-time operations via `subtle` to mitigate timing attacks.
 //! * **Integrity:** Type-safe boundaries between "Public" and "Classified" data.
+
+pub use zeroize;
+pub use subtle;
+pub use secrecy;
+
+pub mod async_classified_data;
+pub mod classified_data;
+pub mod data_repository;
+pub mod errors;
+pub mod exposure_aware_classified_data;
+pub mod classified_map;
+pub mod sized_classified_data;
+pub mod traits;
+
+#[macro_use]
+pub mod macros;
