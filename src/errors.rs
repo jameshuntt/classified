@@ -1,3 +1,44 @@
+//! 
+//! FEATURE NOTES
+//! 
+//! 
+//! 
+//! feature_name:async
+//! deps:[tokio][async_trait]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:true
+//! 
+//! feature_name:logging
+//! deps:[tracing]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:false
+//! 
+//! feature_name:std
+//! deps:[std]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:false
+//! 
+//! 
+//! 
+//! 
+#![cfg(feature = "async")]
+//! 
+//! 
+//! 
+//! 
+//! 
+//! filename:
+//! 
+//! 
+//! usages:
+//! 
+//! 
+//! 
+//! 
+
 #![allow(unused)]
 
 // Module for Error Handling
@@ -6,15 +47,71 @@ use std::io;
 
 use thiserror::Error;
 
+
+
+#[macro_export]
+macro_rules! attach_error_to_hex {
+    ($hex_code:expr, $variant_type:ty, $enum_variant:path) => {
+        impl From<$variant_type> for $crate::errors::SecureError {
+            fn from(err: $variant_type) -> Self {
+                $crate::errors::SecureError::HexCodeError($crate::errors::HexError {
+                    code: [
+                        (($hex_code >> 16) & 0xFF) as u8,
+                        (($hex_code >> 8) & 0xFF) as u8,
+                        ($hex_code & 0xFF) as u8,
+                        ],
+                        // Stringify the type name for the message
+                        message: core::stringify!($variant_type).to_string(),
+                    })
+                }
+            }
+        };
+        ($hex_code:expr, $error_variant:path) => {
+            impl From<$error_variant> for $crate::errors::SecureError {
+                fn from(_: $error_variant) -> Self {
+                    $crate::errors::SecureError::HexCodeError($crate::errors::HexError {
+                        // We take the u32 and turn it into [u8; 3] 
+                        // (taking the lower 3 bytes)
+                        code: [
+                            (($hex_code >> 16) & 0xFF) as u8,
+                            (($hex_code >> 8) & 0xFF) as u8,
+                            ($hex_code & 0xFF) as u8,
+                        ],
+                        message: core::stringify!($error_variant).to_string(),
+                    })
+                }
+            }
+        };
+}
+
+// Usage:
+attach_error_to_hex!(0x1001, InvalidKeyLength, SecureError::InvalidKeyLength);
+
+#[derive(core::fmt::Debug)]
+pub struct InvalidKeyLength;
+pub struct PipelineError(pub String);
+#[derive(core::fmt::Debug)]
+pub struct HexError
+{code:[u8;3],message:String}
+
+
+
+#[derive(Debug)]
+pub enum SecureErrors {
+    InvalidKeyLength(InvalidKeyLength),
+    PipelineError(String),
+    HexCodeError(HexError)
+}
+
 #[derive(Error, Debug)]
 pub enum SecureError {
     #[error("Invalid key length specified")]
     InvalidKeyLength,
     #[error("Pipeline setup failed: {0}")]
     PipelineError(String),
+    #[error("Hex code error")]
+    HexCodeError(HexError)
 }
-
-
 #[derive(Error, Debug)]
 pub enum ConcurrencyError {
     #[error("Invalid key length specified")]
@@ -80,7 +177,7 @@ pub enum ClassifiedError {
     CryptoError(String),
     #[error("IO error: {0}")]
     IoError(#[from] std::io::Error),
-    
+
     #[cfg(feature = "std")]
     #[error("Serde error: {0}")]
     SerdeError(#[from] toml::de::Error),

@@ -1,31 +1,43 @@
 //! 
-//! 
 //! FEATURE NOTES
 //! 
 //! 
 //! 
 //! feature_name:async
-//! deps: [
-//!     [tokio]:[Struct KeyManager]
-//! ]
+//! deps:[tokio][async_trait]
+//! scope:[]
+//! effected_lines:[]
 //! corpus:true
-//! no-std_elegible:false
 //! 
 //! feature_name:logging
 //! deps:[tracing]
 //! scope:[]
 //! effected_lines:[]
-//! corpus:true
-//! no-std_elegible:false
+//! corpus:false
 //! 
-//! 
+//! feature_name:std
+//! deps:[std]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:false
 //! 
 //! 
 //! 
 //! 
 #![cfg(feature = "async")]
-#![cfg(feature = "std")]
-
+//! 
+//! 
+//! 
+//! 
+//! 
+//! filename:
+//! 
+//! 
+//! usages:
+//! 
+//! 
+//! 
+//! 
 
 
 use crate::classified_data::ClassifiedData;

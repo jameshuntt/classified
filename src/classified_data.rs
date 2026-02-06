@@ -1,3 +1,43 @@
+//! 
+//! FEATURE NOTES
+//! 
+//! 
+//! 
+//! feature_name:async
+//! deps:[tokio][async_trait]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:true
+//! 
+//! feature_name:logging
+//! deps:[tracing]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:false
+//! 
+//! feature_name:std
+//! deps:[std]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:false
+//! 
+//! 
+//! 
+//! 
+#![cfg(feature = "async")]
+//! 
+//! 
+//! 
+//! 
+//! 
+//! filename:
+//! 
+//! 
+//! usages:
+//! 
+//! 
+//! 
+//! 
 #![cfg_attr(feature = "no-clone", doc = "⚠️ Cloning is disabled unless `no-clone` is unset.")]
 
 use secrecy::{ExposeSecret, SecretBox};

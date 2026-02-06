@@ -1,3 +1,33 @@
+//! 
+//! FEATURE NOTES
+//! 
+//! 
+//! 
+//! feature_name:default
+//! deps:[zeroize]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:true
+//! 
+//! 
+//! 
+//! 
+//! corpus features
+//! #![cfg(feature = "")]
+//! 
+//! 
+//! 
+//! 
+//! 
+//! filename:
+//! 
+//! 
+//! usages:
+//! 
+//! 
+//! 
+//! 
+
 use zeroize::Zeroize;
 
 pub struct ZeroizingGuard<'a, T: Zeroize> {
