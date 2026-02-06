@@ -1,7 +1,8 @@
 //! ----------------------------------------------
 //! DOCUMENT DETAILS -----------------------------
 //! 
-//! filename:datd_repository.rs
+//! filename:concurrency.rs
+//! path:
 //! description:
 //! usages:none in crate yet
 //! 
@@ -22,7 +23,7 @@
 //! CORPUS FEATURES ------------------------------
 //! 
 #![cfg(feature = "async")]
-#![cfg(feature = "std")]
+
 
 pub mod actor_channel;
 pub mod actors;
