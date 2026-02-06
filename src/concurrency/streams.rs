@@ -1,27 +1,73 @@
+//! 
+//! FEATURE NOTES
+//! 
+//! 
+//! 
+//! feature_name:async
+//! deps:[tokio][async_trait]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:true
+//! 
+//! feature_name:logging
+//! deps:[tracing]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:false
+//! 
+//! feature_name:std
+//! deps:[std]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:true
+//! 
+//! 
+//! 
+//! 
+#![cfg(feature = "std")]
 #![cfg(feature = "async")]
-//!
-//! this uses tokio and async-trait, therefore it is async
 //! 
 //! 
 //! 
+//! 
+//! 
+//! filename:
+//! 
+//! 
+//! usages:
+//! 
+//! 
+//! 
+//! 
 
 
+use crate::{
+    classified_data::ClassifiedData,
+    errors::SecureError,
+    traits::PipelineStage
+};
 
-use crate::errors::SecureError;
-use crate::classified_data::ClassifiedData;
-use crate::traits::PipelineStage;
+#[cfg(feature = "async")]
+use {
+    async_trait::async_trait,
+    futures::{Stream, StreamExt},
+    tokio::sync::mpsc,
+    tokio_stream::wrappers::ReceiverStream
+};
 
-use async_trait::async_trait;
-use futures::{Stream, StreamExt};
+#[cfg(feature = "std")]
 use std::time::Instant;
-use tokio::sync::mpsc;
-use tokio_stream::wrappers::ReceiverStream;
+
 #[cfg(feature = "logging")]
 use tracing::{debug, error, warn};
 
 // OTEL metrics
-use opentelemetry::{global, KeyValue};
-use opentelemetry::metrics::{Counter, Histogram};
+#[cfg(feature = "metrics")]
+use opentelemetry::{
+    global,
+    KeyValue,
+    metrics::{Counter, Histogram}
+};
 
 // Initialization (can go in your main or setup)
 fn init_meter() -> (Counter<u64>, Counter<u64>, Counter<u64>, Histogram<f64>) {
@@ -47,27 +93,36 @@ type SecureStreamResult = Result<SecureStreamData, SecureError>;
 pub struct StreamHandler {
     concurrency_limit: usize,
     max_retries: usize,
+    #[cfg(feature = "metrics")]
     success_counter: Counter<u64>,
+    #[cfg(feature = "metrics")]
     failure_counter: Counter<u64>,
+    #[cfg(feature = "metrics")]
     stream_failure_counter: Counter<u64>,
+    #[cfg(feature = "metrics")]
     duration_histogram: Histogram<f64>,
 }
 
 impl StreamHandler {
     pub fn new(concurrency_limit: usize, max_retries: usize) -> Self {
-        let (success, failure, stream_failure, duration) = init_meter();
+        #[cfg(feature = "metrics")]
+        let (success,failure, stream_failure, duration) = init_meter();
 
         Self {
             concurrency_limit,
             max_retries,
+            #[cfg(feature = "metrics")]
             success_counter: success,
+            #[cfg(feature = "metrics")]
             failure_counter: failure,
+            #[cfg(feature = "metrics")]
             stream_failure_counter: stream_failure,
+            #[cfg(feature = "metrics")]
             duration_histogram: duration,
         }
     }
+    
     #[cfg(feature = "std")]
-
     pub async fn run_stream<S>(&self, stream: S) -> Result<(), SecureError>
     where
         S: Stream<Item = SecureStreamResult> + Unpin + Send + 'static,
@@ -96,6 +151,7 @@ impl StreamHandler {
             }
         }
     }
+
     #[cfg(feature = "std")]
     async fn handle_data_with_retries(
         &self,

@@ -1,17 +1,16 @@
 //! 
 //! FEATURE NOTES
 //! 
-//! feature_name: async
+//! 
+//! 
+//! feature_name:async
 //! deps:[tokio][async_trait]
 //! scope: [
 //!     a: [struct ActorRef]
 //!     b: [struct EncryptedActor]
 //! ]
-//! effected_lines: [
-//!     a: 
-//!     b: 
-//! ]
-//! corpus: true 
+//! effected_lines:[]
+//! corpus:true
 //! 
 //! feature_name: logging
 //! deps: [tracing]
@@ -23,14 +22,8 @@
 //! corpus: false 
 //! 
 //! 
-
-
-
-
-
-
-
-
+//! 
+//! 
 #![cfg(feature = "async")]
 
 

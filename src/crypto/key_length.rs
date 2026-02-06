@@ -1,11 +1,11 @@
-// src/crypto/key_length.rs
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Default)]
 pub enum KeyLength {
+    Bits256,
+    Bits512,
     Bits1024,
+    #[default]
     Bits2048,
     Bits4096,
-    Bits256, // For AES-256
-    Bits512, // For AES-512, if applicable
 }
 
 impl KeyLength {
