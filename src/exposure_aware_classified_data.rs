@@ -1,45 +1,29 @@
+//! ----------------------------------------------
+//! DOCUMENT DETAILS -----------------------------
 //! 
-//! FEATURE NOTES
+//! filename:exposure_aware_classified_data.rs
+//! description:
+//! usages:none in crate yet
 //! 
-//! 
+//! ----------------------------------------------
+//! FEATURE NOTES --------------------------------
 //! 
 //! feature_name:async
 //! deps:[tokio][async_trait]
-//! scope:[]
-//! effected_lines:[]
+//! scope:[impl ThreadPoolManager]
 //! corpus:true
-//! 
-//! feature_name:logging
-//! deps:[tracing]
-//! scope:[]
-//! effected_lines:[]
-//! corpus:false
 //! 
 //! feature_name:std
 //! deps:[std]
-//! scope:[]
-//! effected_lines:[]
+//! scope:[impl ThreadPoolManager]
 //! corpus:false
 //! 
+//! ----------------------------------------------
+//! CORPUS FEATURES ------------------------------
 //! 
-//! 
-//! 
-#![cfg(feature = "async")]
-//! 
-//! 
-//! 
-//! 
-//! 
-//! filename:
-//! 
-//! 
-//! usages:
-//! 
-//! 
-//! 
-//! 
+#![cfg(feature = "std")]
 
-#![allow(unused, unexpected_cfgs)]
+
 
 use std::{
     sync::atomic::{AtomicUsize, Ordering},
@@ -115,7 +99,7 @@ impl ExposureAwareClassifiedData<Vec<u8>> {
     }
 }
 
-use crate::{impl_clone, impl_ct, impl_debug, impl_drop, impl_for_generics_no_trait, impl_generic_drop, impl_new};
+use crate::{impl_clone, impl_ct, impl_debug, impl_for_generics_no_trait, impl_generic_drop, impl_new};
 impl_clone!(ExposureAwareClassifiedData);
 impl_generic_drop!(ExposureAwareClassifiedData<T>, data);
 // impl_drop!(ExposureAwareClassifiedData);
@@ -131,14 +115,12 @@ impl_ct!(ExposureAwareClassifiedData);
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::time::Duration;
-    use tokio::time::sleep;
-    use subtle::{ConstantTimeEq, Choice};
+    use subtle::{ConstantTimeEq};
     
-    #[cfg(feature = "concurency")]
+    #[cfg(feature = "concurrency")]
     use tracing_subscriber::{fmt, EnvFilter};
 
-    #[cfg(feature = "concurency")]
+    #[cfg(feature = "concurrency")]
     fn init_tracing() {
         let _ = tracing::subscriber::set_default(
             fmt()
@@ -147,7 +129,7 @@ mod tests {
         );
     }
 
-    #[cfg(feature = "concurency")]
+    #[cfg(feature = "concurrency")]
     #[test]
     fn exposes_value_and_increments_count() {
         init_tracing();

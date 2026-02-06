@@ -1,43 +1,27 @@
+//! ----------------------------------------------
+//! DOCUMENT DETAILS -----------------------------
 //! 
-//! FEATURE NOTES
+//! filename:pipelines.rs
+//! description:
+//! usages:none in crate yet
 //! 
-//! 
+//! ----------------------------------------------
+//! FEATURE NOTES --------------------------------
 //! 
 //! feature_name:async
 //! deps:[tokio][async_trait]
-//! scope:[]
-//! effected_lines:[]
+//! scope:[impl ThreadPoolManager]
 //! corpus:true
-//! 
-//! feature_name:logging
-//! deps:[tracing]
-//! scope:[]
-//! effected_lines:[]
-//! corpus:false
 //! 
 //! feature_name:std
 //! deps:[std]
-//! scope:[]
-//! effected_lines:[]
+//! scope:[impl ThreadPoolManager]
 //! corpus:false
 //! 
-//! 
-//! 
+//! ----------------------------------------------
+//! CORPUS FEATURES ------------------------------
 //! 
 #![cfg(feature = "async")]
-//! 
-//! 
-//! 
-//! 
-//! 
-//! filename:
-//! 
-//! 
-//! usages:
-//! 
-//! 
-//! 
-//! 
 
 use crate::config::{PipelineConfig, StageConfig};
 use crate::crypto::crypto_algorithm::CryptoAlgorithm;
@@ -120,7 +104,7 @@ pub fn create_actor(config: &StageConfig) -> Result<impl PipelineStage, SecureEr
         true
     )
         .map_err(|e| SecureError::PipelineError(
-            "Crypto error".to_string()
+            format!("Crypto error: {}", e)
         ))?;
 
     Ok(crate::concurrency::actors::EncryptionActor::new(crypto, None))

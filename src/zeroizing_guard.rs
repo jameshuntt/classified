@@ -1,32 +1,24 @@
+//! ----------------------------------------------
+//! DOCUMENT DETAILS -----------------------------
 //! 
-//! FEATURE NOTES
+//! filename:zeroizing_guard.rs
+//! description:
+//! usages:none in crate yet
 //! 
+//! ----------------------------------------------
+//! FEATURE NOTES --------------------------------
 //! 
-//! 
-//! feature_name:default
+//! feature_name:async
 //! deps:[zeroize]
-//! scope:[]
-//! effected_lines:[]
+//! scope:[impl ThreadPoolManager]
 //! corpus:true
 //! 
+//! ----------------------------------------------
+//! CORPUS FEATURES ------------------------------
 //! 
-//! 
-//! 
-//! corpus features
-//! #![cfg(feature = "")]
-//! 
-//! 
-//! 
-//! 
-//! 
-//! filename:
-//! 
-//! 
-//! usages:
-//! 
-//! 
-//! 
-//! 
+//! [no_std]
+
+
 
 use zeroize::Zeroize;
 

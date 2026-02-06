@@ -1,43 +1,28 @@
+//! ----------------------------------------------
+//! DOCUMENT DETAILS -----------------------------
 //! 
-//! FEATURE NOTES
+//! filename:traits.rs
+//! description:
+//! usages:none in crate yet
 //! 
-//! 
+//! ----------------------------------------------
+//! FEATURE NOTES --------------------------------
 //! 
 //! feature_name:async
 //! deps:[tokio][async_trait]
-//! scope:[]
-//! effected_lines:[]
+//! scope:[impl ThreadPoolManager]
 //! corpus:true
-//! 
-//! feature_name:logging
-//! deps:[tracing]
-//! scope:[]
-//! effected_lines:[]
-//! corpus:false
 //! 
 //! feature_name:std
 //! deps:[std]
-//! scope:[]
-//! effected_lines:[]
+//! scope:[impl ThreadPoolManager]
 //! corpus:false
 //! 
-//! 
-//! 
+//! ----------------------------------------------
+//! CORPUS FEATURES ------------------------------
 //! 
 #![cfg(feature = "async")]
-//! 
-//! 
-//! 
-//! 
-//! 
-//! filename:
-//! 
-//! 
-//! usages:
-//! 
-//! 
-//! 
-//! 
+#![cfg(feature = "std")]
 
 pub trait ClassifiedEq<Rhs = Self> {
     fn classified_eq(&self, rhs: &Rhs) -> bool;

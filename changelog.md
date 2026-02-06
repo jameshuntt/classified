@@ -1,4 +1,4 @@
-# Changes
+# Changelog
 
 ### notes for v0.1.2
 
@@ -10,4 +10,5 @@
 
 #### status
 * started a feature notes thing that i think ill integrate acrss all crates
+
 
