@@ -240,3 +240,37 @@ macro_rules! impl_new {
 }
 
 
+
+
+#[macro_export]
+macro_rules! impl_for_generics {
+    // Base macro for impl blocks with generics
+    (
+        $type_name:ident<$($gen:ident),+>,
+        $trait_path:path,
+        $($body:tt)*
+    ) => {
+        impl<$($gen),+> $trait_path for $type_name<$($gen),+>
+        where
+            $($gen: $crate::zeroize::Zeroize),+
+        {
+            $($body)*
+        }
+    };
+}
+
+#[macro_export]
+macro_rules! impl_for_generics_no_trait {
+    // Base macro for impl blocks with generics
+    (
+        $type_name:ident<$($gen:ident),+>,
+        $($body:tt)*
+    ) => {
+        impl<$($gen),+> $type_name<$($gen),+>
+        where
+            $($gen: $crate::zeroize::Zeroize),+
+        {
+            $($body)*
+        }
+    };
+}

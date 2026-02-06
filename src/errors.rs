@@ -60,7 +60,7 @@ pub enum CryptoError {
 
 
 #[derive(Error, Debug)]
-pub enum SensitiveError {
+pub enum ClassifiedError {
     #[error("Configuration error: {0}")]
     ConfigError(String),
     #[error("Hex code error {code}: {message}")]
@@ -80,6 +80,8 @@ pub enum SensitiveError {
     CryptoError(String),
     #[error("IO error: {0}")]
     IoError(#[from] std::io::Error),
+    
+    #[cfg(feature = "std")]
     #[error("Serde error: {0}")]
     SerdeError(#[from] toml::de::Error),
     // Add more as needed
@@ -94,7 +96,7 @@ pub enum ClassifiedErrorMaster {
     CryptoError(#[from] CryptoError),
 
     #[error("Other sensitive error: {0}")]
-    Other(#[from] SensitiveError),
+    Other(#[from] ClassifiedError),
 }
 
 impl Default for ClassifiedErrorMaster {
@@ -109,9 +111,9 @@ impl Default for ClassifiedErrorMaster {
 
 
 
-// impl From<std::io::Error> for SensitiveError {
+// impl From<std::io::Error> for ClassifiedError {
 //     fn from(error: std::io::Error) -> Self {
-//         SensitiveError::IoError(error.to_string())
+//         ClassifiedError::IoError(error.to_string())
 //     }
 // }
 // 

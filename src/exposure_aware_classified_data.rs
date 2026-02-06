@@ -6,8 +6,18 @@ use std::{
 };
 
 use secrecy::{ExposeSecret, SecretBox};
-use tracing::warn;
 use zeroize::Zeroize;
+
+#[cfg(feature = "logging")]
+use tracing::warn;
+
+#[derive(Debug)]
+pub enum ExposurePurpose {
+    Signing,
+    Decryption,
+    KeyWrapping,
+    Audit,
+}
 
 pub struct ExposureAwareClassifiedData<T: Zeroize> {
     data: SecretBox<T>,
@@ -23,6 +33,7 @@ impl<T: Zeroize> ExposureAwareClassifiedData<T> {
         let count = EXPOSURE_COUNT.fetch_add(1, Ordering::SeqCst);
         let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
 
+        #[cfg(feature = "logging")]
         // 👁️ Hooked exposure log
         warn!(target: "sensitive", time = %now, count, "Sensitive value exposed");
 
@@ -32,7 +43,26 @@ impl<T: Zeroize> ExposureAwareClassifiedData<T> {
     pub fn exposure_count() -> usize {
         EXPOSURE_COUNT.load(Ordering::SeqCst)
     }
+
+    pub fn expose_for(&self, purpose: ExposurePurpose) -> &T {
+        #[cfg(feature = "logging")]
+        warn!(target: "security_audit", purpose = ?purpose, "Sensitive material accessed");
+        self.data.expose_secret()
+    }
 }
+impl_for_generics_no_trait!(
+    ExposureAwareClassifiedData<T>,
+    pub fn exposed(&self) -> &T {
+        let count = EXPOSURE_COUNT.fetch_add(1, Ordering::SeqCst);
+        let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs();
+
+        #[cfg(feature = "logging")]
+        // 👁️ Hooked exposure log
+        warn!(target: "sensitive", time = %now, count, "Sensitive value exposed");
+
+        self.data.expose_secret()
+    }
+);
 
 impl ExposureAwareClassifiedData<Vec<u8>> {
     pub async fn update<F>(&self, f: F)
@@ -44,7 +74,7 @@ impl ExposureAwareClassifiedData<Vec<u8>> {
     }
 }
 
-use crate::{impl_clone, impl_ct, impl_debug, impl_drop, impl_generic_drop, impl_new};
+use crate::{impl_clone, impl_ct, impl_debug, impl_drop, impl_for_generics_no_trait, impl_generic_drop, impl_new};
 impl_clone!(ExposureAwareClassifiedData);
 impl_generic_drop!(ExposureAwareClassifiedData<T>, data);
 // impl_drop!(ExposureAwareClassifiedData);
@@ -62,9 +92,12 @@ mod tests {
     use super::*;
     use std::time::Duration;
     use tokio::time::sleep;
-    use tracing_subscriber::{fmt, EnvFilter};
     use subtle::{ConstantTimeEq, Choice};
+    
+    #[cfg(feature = "concurency")]
+    use tracing_subscriber::{fmt, EnvFilter};
 
+    #[cfg(feature = "concurency")]
     fn init_tracing() {
         let _ = tracing::subscriber::set_default(
             fmt()
@@ -73,6 +106,7 @@ mod tests {
         );
     }
 
+    #[cfg(feature = "concurency")]
     #[test]
     fn exposes_value_and_increments_count() {
         init_tracing();
@@ -94,7 +128,7 @@ mod tests {
     fn debug_is_redacted() {
         let data = ExposureAwareClassifiedData::new(vec![1, 2, 3]);
         let dbg = format!("{:?}", data);
-        assert_eq!(dbg, "ClassifiedData(REDACTED)");
+        assert_eq!(dbg, "ExposureAwareClassifiedData(<REDACTED>)");
     }
 
     #[tokio::test]

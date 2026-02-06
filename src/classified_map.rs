@@ -1,6 +1,8 @@
-use std::collections::HashMap;
-use std::fmt::Debug;
-use std::hash::Hash;
+use std::{
+    collections::HashMap,
+    fmt::Debug,
+    hash::Hash,
+};
 
 use crate::classified_data::ClassifiedData;
 use zeroize::Zeroize;
@@ -32,6 +34,12 @@ where
     ///
     /// # Example
     /// ```
+    /// use classified::classified_map::ClassifiedMap;
+    /// use zeroize::Zeroize;
+    /// 
+    /// #[derive(Zeroize, Clone, Debug)]
+    /// struct SecretValue { v: u8 };
+    /// 
     /// let map: ClassifiedMap<String, SecretValue> = ClassifiedMap::new();
     /// ```
     pub fn new() -> Self {
@@ -51,7 +59,17 @@ where
     ///
     /// # Example
     /// ```
-    /// map.insert("api_key", secret_value);
+    /// use classified::classified_map::ClassifiedMap;
+    /// use zeroize::Zeroize;
+    /// 
+    /// #[derive(Zeroize, Clone, Debug)]
+    /// struct SecretValue { pub v: u8 };
+    /// 
+    /// let mut map: ClassifiedMap<String, SecretValue> = ClassifiedMap::new();
+    /// 
+    /// let secret_value: SecretValue = SecretValue { v: 8 };
+    /// 
+    /// map.insert("api_key".to_string(), secret_value);
     /// ```
     pub fn insert(&mut self, key: K, value: V) {
         self.inner.insert(key, ClassifiedData::new(value));

@@ -156,7 +156,7 @@ mod tests {
     fn test_debug_does_not_leak() {
         let sensitive = SizedClassifiedData::new([1u8; 32]);
         let debug_output = format!("{:?}", sensitive);
-        assert_eq!(debug_output, "SizedClassifiedData(<hidden>)");
+        assert_eq!(debug_output, "SizedClassifiedData(<REDACTED>)");
     }
 
     #[test]

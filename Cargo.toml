@@ -12,18 +12,62 @@ keywords = ["cryptography", "security", "zeroize", "nist", "hardened"]
 categories = ["cryptography", "memory-management", "no-std"]
 
 [features]
-default = []
+default = ["full"]
 no-clone = []
-[dependencies]
-secrecy = "0.10.3"
-zeroize = { version = "1.8.1", features = ["derive"] }
-subtle = { version = "2.6.1", features = ["std"] }
-tokio = { version = "1.44.1", features = ["full"] }
-thiserror = "2.0.12"
-toml = "0.8.20"
-futures = "0.3.31"
-tracing = "0.1.41"
-tracing-subscriber = { version = "0.3.19", features = ["fmt", "json", "env-filter", "ansi", "time", "std"] }
 
-[dev-dependencies]
-# tokio = { version = "1.44.1", features = ["full"] }
+full = ["concurrency", "std"]
+
+std = ["dep:thiserror", "dep:toml"]
+
+concurrency = ["logging", "metrics", "async"]
+
+logging = ["dep:tracing", "dep:tracing-subscriber"]
+metrics = ["dep:opentelemetry"]
+async = ["dep:futures", "dep:tokio", "dep:tokio-stream", "dep:async-trait"]
+
+[dependencies]
+# the no-std always on deps
+secrecy = "0.10.3"
+subtle = { version = "2.6.1", features = ["std"] }
+zeroize = { version = "1.8.1", features = ["derive"] }
+serde = { version = "1.0.219", default-features = false, features = ["derive"] }
+
+
+
+
+
+# std deps
+[dependencies.thiserror]
+version = "2.0.12"
+optional = true
+[dependencies.toml]
+version = "0.8.20"
+optional = true
+
+# the async deps
+[dependencies.async-trait]
+version = "0.1.88"
+optional = true
+[dependencies.futures]
+version = "0.3.31"
+optional = true
+[dependencies.tokio]
+version = "1.44.1"
+features = ["full"]
+optional = true
+[dependencies.tokio-stream]
+version = "0.1.17"
+optional = true
+# the logging deps
+[dependencies.tracing]
+version = "0.1.41"
+optional = true
+[dependencies.tracing-subscriber]
+version = "0.3.19"
+features = ["fmt", "json", "env-filter", "ansi", "time", "std"] 
+optional = true
+# the metrics deps
+[dependencies.opentelemetry]
+version = "0.28.0"
+features = ["metrics", "tracing"]
+optional = true 
