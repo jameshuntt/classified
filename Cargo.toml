@@ -15,7 +15,10 @@ categories = ["cryptography", "memory-management", "no-std"]
 default = ["full"]
 no-clone = []
 
-full = ["concurrency", "std"]
+full = [
+    "concurrency",
+    "std"
+]
 
 std = ["dep:thiserror", "dep:toml"]
 

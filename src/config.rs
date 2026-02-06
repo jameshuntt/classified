@@ -1,3 +1,21 @@
+//! 
+//! 
+//! FEATURE NOTES
+//! 
+//! 
+//! 
+//! feature_name:std
+//! deps:[std]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:false
+//! 
+//! 
+//! 
+#![cfg(feature = "std")]
+
+
+
 #![allow(unused)]
 
 use serde::Deserialize;

@@ -1,3 +1,33 @@
+//! 
+//! 
+//! FEATURE NOTES
+//! 
+//! 
+//! 
+//! feature_name:async
+//! deps: [
+//!     [tokio]:[Struct KeyManager]
+//! ]
+//! corpus:true
+//! no-std_elegible:false
+//! 
+//! feature_name:logging
+//! deps:[tracing]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:true
+//! no-std_elegible:false
+//! 
+//! 
+//! 
+//! 
+//! 
+//! 
+#![cfg(feature = "async")]
+#![cfg(feature = "std")]
+
+
+
 use crate::classified_data::ClassifiedData;
 use crate::errors::SecureError;
 use std::collections::HashMap;

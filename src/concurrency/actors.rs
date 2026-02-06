@@ -1,4 +1,38 @@
-#![allow(unused)]
+//! 
+//! FEATURE NOTES
+//! 
+//! feature_name: async
+//! deps:[tokio][async_trait]
+//! scope: [
+//!     a: [struct ActorRef]
+//!     b: [struct EncryptedActor]
+//! ]
+//! effected_lines: [
+//!     a: 
+//!     b: 
+//! ]
+//! corpus: true 
+//! 
+//! feature_name: logging
+//! deps: [tracing]
+//! scope: [
+//!     ActorRef::new()
+//!     EncryptedActor::start()
+//! ]
+//! effected_lines: []
+//! corpus: false 
+//! 
+//! 
+
+
+
+
+
+
+
+
+#![cfg(feature = "async")]
+
 
 use std::sync::Arc;
 

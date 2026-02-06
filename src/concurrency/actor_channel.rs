@@ -1,3 +1,29 @@
+//! 
+//! FEATURE NOTES
+//! 
+//! feature_name: async
+//! deps: tokio | async-trait
+//! scope: struct ActorChannel
+//! effected_lines: []
+//! corpus: true 
+//! 
+//! feature_name: logging
+//! deps: tracing
+//! scope: function inside trait impl
+//! effected_lines: []
+//! corpus: false 
+//! 
+//! 
+
+
+
+
+
+
+
+
+#![cfg(feature = "async")]
+
 use async_trait::async_trait;
 use tokio::sync::mpsc;
 

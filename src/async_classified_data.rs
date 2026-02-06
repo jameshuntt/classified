@@ -1,3 +1,28 @@
+//! 
+//! 
+//! FEATURE NOTES
+//! 
+//! 
+//! 
+//! feature_name:async
+//! deps:[tokio][async_trait]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:true
+//! 
+//! feature_name:std
+//! deps:[std]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:true
+//! 
+//! 
+//! 
+#![cfg(feature = "async")]
+
+
+
+
 //! Async-sensitive secure wrapper for confidential data.
 //!
 //! This crate provides a `AsyncClassifiedData<T>` type that combines:

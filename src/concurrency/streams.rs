@@ -1,3 +1,12 @@
+#![cfg(feature = "async")]
+//!
+//! this uses tokio and async-trait, therefore it is async
+//! 
+//! 
+//! 
+
+
+
 use crate::errors::SecureError;
 use crate::classified_data::ClassifiedData;
 use crate::traits::PipelineStage;

@@ -1,5 +1,15 @@
+//! this file could qualify for no-std as long as i make a vec and hashmap no-std drop in
+//!
+//! this is a thing that is a naive thing that i made
+//! 
+//! i will replace it with mechanisms from pkcs11
+//! 
+//! there will be handling of all formats, legacy and otherwise
+//! 
+//! 
 
-// src/crypto/crypto_builder.rs
+
+
 
 // Phase 1: Implement Core Structs and Macros for Secure Concurrency and Cryptographic Library
 use secrecy::{SecretBox};

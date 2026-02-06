@@ -1,3 +1,24 @@
+//! 
+//! 
+//! FEATURE NOTES
+//! 
+//! 
+//! 
+//! feature_name:std
+//! deps:[std]
+//! scope:[]
+//! effected_lines:[]
+//! corpus:true
+//! 
+//! 
+//! 
+#![cfg(feature = "std")]
+
+
+
+
+
+
 use std::{
     collections::HashMap,
     fmt::Debug,

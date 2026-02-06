@@ -1,3 +1,23 @@
+//! 
+//! 
+//! FEATURE NOTES
+//! 
+//! 
+//! 
+//! feature_name:async
+//! deps:[async_trait]
+//! scope:[FramedLayerHandler]
+//! effected_lines:[]
+//! corpus:true
+//! 
+//! 
+//! 
+//! 
+#![cfg(feature = "async")]
+
+
+
+
 use crate::{
     errors::SecureError,
     traits::{

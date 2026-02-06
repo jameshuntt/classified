@@ -1,3 +1,20 @@
+#![cfg(feature = "async")]
+//! 
+//! FEATURE NOTES
+//! 
+//! feature_name: async
+//! deps: tokio | async-trait
+//! scope: impl PipelineStage
+//! effected_lines: []
+//! corpus: false 
+//! 
+//! feature_name: logging
+//! deps: tracing
+//! scope: function inside trait impl
+//! effected_lines: []
+//! corpus: false 
+//! 
+//! 
 
 use crate::{crypto::crypto_primitive::CryptoPrimitive, traits::PipelineStage};
 use crate::errors::SecureError;
